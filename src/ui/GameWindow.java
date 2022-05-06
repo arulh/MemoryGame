@@ -7,19 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.List;
 
-public class LaunchWindow implements ActionListener {
-
-    public static final int HEIGHT = 370;
-    public static final int WIDTH = 480;
+public class GameWindow extends Window implements ActionListener {
 
     private Game game;
-    private JFrame frame;
 
-    public LaunchWindow() {
+    public GameWindow() {
         game = new Game();
+
         game.addCard(new Card("red", Color.RED));
         game.addCard(new Card("blue", Color.BLUE));
         game.addCard(new Card("yellow", Color.YELLOW));
@@ -32,7 +27,7 @@ public class LaunchWindow implements ActionListener {
         game.addCard(new Card("magenta", Color.MAGENTA));
         game.addCard(new Card("cyan", Color.CYAN));
 
-        frame = new JFrame();
+//        frame = new JFrame();
         frame.setLayout(null);
         for (Card c : game) {
             c.addActionListener(this);
@@ -54,10 +49,17 @@ public class LaunchWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for (Card c : game) {
             if (e.getSource() == c) {
-                c.changeHidden();
-                frame.add(c.displayCard());
+                game.update(c);
+//                c.changeHidden();
+                viewCards();
                 return;
             }
+        }
+    }
+
+    private void viewCards() {
+        for (Card c : game) {
+            frame.add(c.displayCard());
         }
     }
 }

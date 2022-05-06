@@ -82,7 +82,7 @@ public class Card extends JButton {
         if (this == o) return true;
         if (!(o instanceof Card)) return false;
         Card card = (Card) o;
-        return id == card.id && name.equals(card.name) && c.equals(card.c);
+        return name.equals(card.name) && c.equals(card.c);
     }
 
     @Override

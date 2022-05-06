@@ -1,11 +1,18 @@
 package model;
 
+import ui.Observer;
+import ui.Window;
+
 import java.util.*;
 
-public class Game implements Iterable<Card> {
+public class Game extends Window implements Iterable<Card> {
 
     private List<Card> cards;
     private boolean isShuffled = false;
+    private int guess = 0;
+
+    private Card prevGuess;
+    private Card currentGuess;
 
     public Game() {
         cards = new ArrayList<>();
@@ -18,8 +25,46 @@ public class Game implements Iterable<Card> {
         }
     }
 
-    public int getSize() {
-        return cards.size();
+    public boolean gameOver() {
+        for (Card c : this) {
+            if (c.isHidden()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void update(Card selectedCard) {
+//        int guess = 0;
+        if (guess == 2) {
+            if (prevGuess.equals(currentGuess)) {
+                // guess correct
+                System.out.println("Correct");
+            } else {
+                prevGuess.changeHidden();
+                currentGuess.changeHidden();
+            }
+            prevGuess = null;
+            currentGuess = null;
+            guess = 0;
+            return;
+        }
+        if (prevGuess == null) {
+            prevGuess = selectedCard;
+            prevGuess.changeHidden();
+//            frame.add(prevGuess.displayCard());
+            guess++;
+        } else {
+            currentGuess = selectedCard;
+            currentGuess.changeHidden();
+//            frame.add(currentGuess.displayCard());
+//            try {
+//                Thread.sleep(150);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            guess++;
+        }
     }
 
     @Override
